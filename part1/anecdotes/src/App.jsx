@@ -28,7 +28,7 @@ const App = () => {
     setMostVoted(new_points.indexOf(Math.max(...new_points)))
 }
   
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(Math.floor(Math.random() * anecdotes.length))
   const [votes, setVotes] = useState(0)
   const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
   const [most_voted, setMostVoted] = useState(0)

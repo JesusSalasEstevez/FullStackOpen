@@ -1,5 +1,35 @@
 import { useState } from 'react'
 
+const Filter = ({filter, searchInfo}) => {
+  return(
+    <form>
+    filter shown with <input value={filter} onChange={searchInfo}/>
+  </form>
+  )
+}
+
+const PersonFrom = ({addName, newName, newNumber, setNewName, setNewNumber}) => {
+  return (
+    <form onSubmit={addName}>
+      <div>
+        name: <input value={newName} onChange={event => setNewName(event.target.value)}/>
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={event => setNewNumber(event.target.value)}/>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+const Persons = ({contacts}) => {
+  return (
+    contacts.map(person => <p key={person.id}>{person.name} {person.number}</p>)
+  )
+}
+
 const App = () => {
 
 
@@ -35,23 +65,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        filter shown with <input value={filter} onChange={searchInfo}/>
-      </form>
+      <Filter filter={filter} searchInfo={searchInfo}/>
       <h2>Add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={event => setNewName(event.target.value)}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={event => setNewNumber(event.target.value)}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonFrom addName={addName} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      {contacts.map(person => <p key={person.id}>{person.name} {person.number}</p>)}
+      <Persons contacts={contacts}/>
     </div>
   )
 }

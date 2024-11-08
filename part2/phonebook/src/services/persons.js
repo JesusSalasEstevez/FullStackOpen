@@ -7,8 +7,13 @@ const getAll = () => {
 }
 
 const create = newObject => {
-    const request = axios.put(dataUrl, newObject)
+    const request = axios.post(dataUrl, newObject)
     return request.then(response => response.data)
 }
 
-export default {create, getAll}
+const erase = erasedObject => {
+    const request = axios.delete(`${dataUrl}/${erasedObject.id}`, erasedObject)
+    return request.then(response => response.data)
+}
+
+export default {create, getAll, erase}

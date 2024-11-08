@@ -25,9 +25,9 @@ const PersonFrom = ({addPerson, newName, newNumber, setNewName, setNewNumber}) =
   )
 }
 
-const Persons = ({persons}) => {
+const Persons = ({persons, handleClick}) => {
   return (
-    persons.map(person =><p key={person.id}>{person.name} {person.number}</p>)
+    persons.map(person => <p key={person.id}>{person.name} {person.number} <button onClick={() => handleClick(person.id)}>erase</button></p>)
   )
 }
 
@@ -57,6 +57,13 @@ const App = () => {
     }
   }
 
+  const erasePerson = id => {
+    if(window.confirm(`Delete ${persons.filter(p => p.id == id)[0].name} ?`))
+      personsService
+        .erase(persons.filter(p => p.id == id)[0])
+        .then(erasedPerson => setPersons(persons.filter(p => p.id != erasedPerson.id)))
+  }
+
   const searchInfo = (event) => {
     setNewFilter(event.target.value)
   }
@@ -75,7 +82,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonFrom addPerson={addPerson} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow}/>
+      <Persons persons={personsToShow} handleClick={erasePerson}/>
     </div>
   )
 }

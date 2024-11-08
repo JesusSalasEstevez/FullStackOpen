@@ -32,11 +32,12 @@ const Persons = ({contacts}) => {
 }
 
 const App = () => {
-
+  
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
+        setPersons(response.data)
         setNewContacts(response.data)
       })
   }, [])
@@ -54,8 +55,9 @@ const App = () => {
   }
 
   const searchInfo = (event) => {
+    console.log(event.target.value == '' ? 'true' : 'false')
     setNewFilter(event.target.value)
-    const personsToShow = filter == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+    const personsToShow = event.target.value == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(event.target.value.toLowerCase()))
     setNewContacts(personsToShow)
   }
 
@@ -63,7 +65,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
-  const [contacts, setNewContacts] = useState(persons)
+  const [contacts, setNewContacts] = useState([])
 
   return (
     <div>

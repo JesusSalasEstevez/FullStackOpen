@@ -9,9 +9,9 @@ const Filter = ({filter, searchInfo}) => {
   )
 }
 
-const PersonFrom = ({addName, newName, newNumber, setNewName, setNewNumber}) => {
+const PersonFrom = ({addPerson, newName, newNumber, setNewName, setNewNumber}) => {
   return (
-    <form onSubmit={addName}>
+    <form onSubmit={addPerson}>
       <div>
         name: <input value={newName} onChange={event => setNewName(event.target.value)}/>
       </div>
@@ -25,56 +25,62 @@ const PersonFrom = ({addName, newName, newNumber, setNewName, setNewNumber}) => 
   )
 }
 
-const Persons = ({contacts}) => {
+const Persons = ({persons}) => {
+  console.log(persons)
   return (
-    contacts.map(person => <p key={person.id}>{person.name} {person.number}</p>)
+    persons.map(person =><p key={person.id}>{person.name} {person.number}</p>)
   )
 }
 
 const App = () => {
+
+  const dataUrl = 'http://localhost:3001/persons'
   
   useEffect(() => {
     axios
-      .get('http://localhost:3001/persons')
+      .get(dataUrl)
       .then(response => {
         setPersons(response.data)
-        setNewContacts(response.data)
       })
   }, [])
 
-  const addName = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
     if(persons.find(p => p.name == newName)){
       window.alert(`${newName} is already added to phonebook`)
     }else{
       const newPerson ={name: newName, number: newNumber}
       const newPersons = persons.concat(newPerson)
-      setNewName('')
-      setPersons(newPersons)
+      axios
+        .post(dataUrl, newPerson)
+        .then(() => {
+          setPersons(persons.concat(newPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
   const searchInfo = (event) => {
     console.log(event.target.value == '' ? 'true' : 'false')
     setNewFilter(event.target.value)
-    const personsToShow = event.target.value == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(event.target.value.toLowerCase()))
-    setNewContacts(personsToShow)
   }
 
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
-  const [contacts, setNewContacts] = useState([])
+
+  const personsToShow = filter == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter filter={filter} searchInfo={searchInfo}/>
       <h2>Add a new</h2>
-      <PersonFrom addName={addName} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />
+      <PersonFrom addPerson={addPerson} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      <Persons contacts={contacts}/>
+      <Persons persons={personsToShow}/>
     </div>
   )
 }

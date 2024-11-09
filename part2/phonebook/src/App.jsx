@@ -41,10 +41,19 @@ const App = () => {
         })
   }, [])
 
-  const addPerson = (event) => {
+  const addPerson = event => {
     event.preventDefault()
-    if(persons.find(p => p.name == newName)){
-      window.alert(`${newName} is already added to phonebook`)
+    if(persons.find(p => p.name == newName) != undefined ){
+      const newPerson = {...persons.find(p => p.name == newName), number: newNumber}
+      if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)){
+        personsService
+          .update(newPerson)
+          .then(person => {
+            setPersons(persons.filter(p => p.name != person.name).concat(newPerson))
+            setNewNumber('')
+            setNewName('')
+          })
+      }
     }else{
       const newPerson ={name: newName, number: newNumber}
       personsService

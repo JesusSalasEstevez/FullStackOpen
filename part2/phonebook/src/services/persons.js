@@ -16,4 +16,10 @@ const erase = erasedObject => {
     return request.then(response => response.data)
 }
 
-export default {create, getAll, erase}
+const update = newObject => {
+    console.log(`${dataUrl}/${newObject.id}`)
+    const request = axios.patch(`${dataUrl}/${newObject.id}`, newObject)
+    return request.then(response => response.data)
+}
+
+export default {create, getAll, erase, update}

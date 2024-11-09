@@ -8,6 +8,28 @@ const Filter = ({filter, searchInfo}) => {
   </form>
   )
 }
+const Message = ({message}) => {
+  console.log('message', message)
+  const messageStyle = {
+    color: 'green',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: 'lightgrey',
+    margin: 10
+  }
+  if(message === '')
+    return null
+
+  return (
+    <div style={messageStyle}>
+      <p>
+        {message}
+      </p>
+    </div>
+  )
+}
 
 const PersonFrom = ({addPerson, newName, newNumber, setNewName, setNewNumber}) => {
   return (
@@ -52,6 +74,10 @@ const App = () => {
             setPersons(persons.filter(p => p.name != person.name).concat(newPerson))
             setNewNumber('')
             setNewName('')
+            setMessage(`${newPerson.name}'s number changed`)
+            setTimeout(() => {
+              setMessage('')
+            }, 5000);
           })
       }
     }else{
@@ -62,6 +88,10 @@ const App = () => {
           setPersons(persons.concat(newPerson))
           setNewName('')
           setNewNumber('')
+          setMessage(`Added ${newPerson.name}`)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000);
         })
     }
   }
@@ -81,12 +111,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
+  const [message, setMessage] = useState('')
 
   const personsToShow = filter == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Message message={message}/>
       <Filter filter={filter} searchInfo={searchInfo}/>
       <h2>Add a new</h2>
       <PersonFrom addPerson={addPerson} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />

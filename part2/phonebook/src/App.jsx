@@ -5,13 +5,12 @@ const Filter = ({filter, searchInfo}) => {
   return(
     <form>
     filter shown with <input value={filter} onChange={searchInfo}/>
-  </form>
+    </form>
   )
 }
-const Message = ({message}) => {
-  console.log('message', message)
+const Message = ({message, color}) => {
   const messageStyle = {
-    color: 'green',
+    color: color,
     fontSize: 20,
     borderStyle: 'solid',
     borderRadius: 5,
@@ -19,6 +18,7 @@ const Message = ({message}) => {
     backgroundColor: 'lightgrey',
     margin: 10
   }
+
   if(message === '')
     return null
 
@@ -75,9 +75,14 @@ const App = () => {
             setNewNumber('')
             setNewName('')
             setMessage(`${newPerson.name}'s number changed`)
+            setColor('green')
             setTimeout(() => {
               setMessage('')
             }, 5000);
+          })
+          .catch(() => {
+            setMessage(`Information of ${newPerson.name} has already been removed from server`)
+            setColor('red')
           })
       }
     }else{
@@ -89,6 +94,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setMessage(`Added ${newPerson.name}`)
+          setColor('green')
           setTimeout(() => {
             setMessage('')
           }, 5000);
@@ -112,13 +118,14 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
   const [message, setMessage] = useState('')
+  const [color, setColor] = useState('')
 
   const personsToShow = filter == '' ? persons : persons.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Message message={message}/>
+      <Message message={message} color={color}/>
       <Filter filter={filter} searchInfo={searchInfo}/>
       <h2>Add a new</h2>
       <PersonFrom addPerson={addPerson} newName={newName} newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} />

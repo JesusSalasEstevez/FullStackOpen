@@ -6,4 +6,9 @@ const get = () => {
     return request.then(response => response.data)
 }
 
-export default {get}
+const getbyname = name => {
+    const request = axios.get(`${dataUrl}api/name/${name}`)
+    return request.then(response => response.data)
+}
+
+export default {get, getbyname}

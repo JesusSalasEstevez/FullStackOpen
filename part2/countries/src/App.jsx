@@ -46,6 +46,10 @@ const QueryCountries = ({query, showFunction}) => {
         <p>Too many matches, specify another filter</p>
       )
     }
+  }else{
+    return(
+      <p>Any country matches the filter</p>
+    )
   }
 }
 
@@ -66,7 +70,9 @@ const App = () => {
           array.push(c)
         }
       })
-      if (array.length === 1)
+      if(array.length === 0)
+        setQuery(null)
+      else if (array.length === 1)
         setQuery(array[0])
       else 
         setQuery(array)

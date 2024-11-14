@@ -1,5 +1,5 @@
 import axios from 'axios'
-const dataUrl = 'http://localhost:3001/persons'
+const dataUrl = 'http://localhost:3001/api/persons'
 
 const getAll = () => {
     const request = axios.get(dataUrl)
@@ -13,7 +13,10 @@ const create = newObject => {
 
 const erase = erasedObject => {
     const request = axios.delete(`${dataUrl}/${erasedObject.id}`, erasedObject)
-    return request.then(response => response.data)
+    return request.then(response => {
+        console.log(response.data)
+        return response.data
+    })
 }
 
 const update = newObject => {

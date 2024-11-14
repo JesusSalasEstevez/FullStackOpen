@@ -106,7 +106,7 @@ const App = () => {
     if(window.confirm(`Delete ${persons.filter(p => p.id == id)[0].name} ?`))
       personsService
         .erase(persons.filter(p => p.id == id)[0])
-        .then(erasedPerson => setPersons(persons.filter(p => p.id != erasedPerson.id)))
+        .then(() => setPersons(persons.filter(p => p.id !== id)))
   }
 
   const searchInfo = (event) => {

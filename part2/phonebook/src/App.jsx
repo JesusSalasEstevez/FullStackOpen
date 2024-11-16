@@ -103,10 +103,18 @@ const App = () => {
   }
 
   const erasePerson = id => {
+    const erasedPerson = persons.filter(p => p.id == id)[0]
     if(window.confirm(`Delete ${persons.filter(p => p.id == id)[0].name} ?`))
       personsService
-        .erase(persons.filter(p => p.id == id)[0])
-        .then(() => setPersons(persons.filter(p => p.id !== id)))
+        .erase(erasedPerson)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
+          setMessage(`Erased ${erasedPerson.name}`)
+          setColor('green')
+          setTimeout(() => {
+            setMessage('')
+          }, 5000);
+        })
   }
 
   const searchInfo = (event) => {

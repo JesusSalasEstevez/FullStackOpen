@@ -21,7 +21,7 @@ const erase = erasedObject => {
 
 const update = newObject => {
     console.log(`${dataUrl}/${newObject.id}`)
-    const request = axios.patch(`${dataUrl}/${newObject.id}`, newObject)
+    const request = axios.put(`${dataUrl}/${newObject.id}`, newObject)
     return request.then(response => response.data)
 }
 

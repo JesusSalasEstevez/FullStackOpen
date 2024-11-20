@@ -98,6 +98,13 @@ const App = () => {
           setTimeout(() => {
             setMessage('')
           }, 5000);
+        }).catch(error => {
+          setMessage(`${error.response.data.error}`)
+          setColor('red')
+          setTimeout(() => {
+            setMessage('')
+          }, 5000);
+          console.log('frontend', error.response.data.error)
         })
     }
   }

@@ -1,0 +1,33 @@
+{
+  "name": "phonebook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/JesusSalasEstevez/FullStackOpenE3.git"
+  },
+  "author": "Jesús Salas Estévez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JesusSalasEstevez/FullStackOpenE3/issues"
+  },
+  "homepage": "https://github.com/JesusSalasEstevez/FullStackOpenE3#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^2.11.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
+    "nodemon": "^3.1.7"
+  }
+}

@@ -104,7 +104,7 @@ const App = () => {
           setTimeout(() => {
             setMessage('')
           }, 5000);
-          console.log('frontend', error.response.data.error)
+          console.log(error.response.data.error)
         })
     }
   }

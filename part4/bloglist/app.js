@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const config = require('./utils/config')
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -10,10 +11,9 @@ const blogSchema = new mongoose.Schema({
   likes: Number
 })
 
+console.log(config)
 const Blog = mongoose.model('Blog', blogSchema)
-const password = process.argv[2]
-const mongoUrl = `mongodb+srv://fullstack:${password}@phonebook.qxbi3.mongodb.net/?retryWrites=true&w=majority&appName=Phonebook`
-mongoose.connect(mongoUrl)
+mongoose.connect(config.MONGODB_URI)
 
 app.use(cors())
 app.use(express.json())

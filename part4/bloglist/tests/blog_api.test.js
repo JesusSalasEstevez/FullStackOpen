@@ -37,6 +37,14 @@ test('correct number of blogs', async () => {
     assert.strictEqual(response.body.length, initialBlogs.length)
 })
 
+test('identifier is id', async () => {
+    const response = await api.get('/api/blogs')
+
+    if(response.body.length > 0){
+        const blog = response.body[0]
+        assert.strictEqual('id' in blog, true)
+    }
+})
 
 after(async () => {
     await mongoose.connection.close()

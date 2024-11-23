@@ -70,6 +70,16 @@ test('post test to blogs', async () => {
 
 })
 
+test('delete by id', async () => {
+    const allBlogs = await api.get('/api/blogs').expect(200)
+
+    await api.delete(`/api/blogs/${allBlogs.body[allBlogs.body.length-1].id}`).expect(204)
+
+    const newBlogs = await api.get('/api/blogs').expect(200)
+
+    assert.strictEqual(newBlogs.body.length, allBlogs.body.length-1)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })

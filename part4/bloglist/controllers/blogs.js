@@ -4,7 +4,7 @@ require('express-async-errors')
 
 blogsRouter.get('/', async (request, response, next) => {
   const blogs = await Blog.find({})
-  response.status(400).json(blogs)
+  response.status(200).json(blogs)
 })
   
 blogsRouter.post('/', async (request, response, next) => {
@@ -19,6 +19,11 @@ blogsRouter.post('/', async (request, response, next) => {
 
   const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
+})
+
+blogsRouter.delete('/:id', async (request, response, next) => {
+  await Blog.findByIdAndDelete(request.params.id)
+  response.status(204).end()
 })
   
   module.exports = blogsRouter

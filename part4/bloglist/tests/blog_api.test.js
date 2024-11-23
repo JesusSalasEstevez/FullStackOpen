@@ -46,6 +46,30 @@ test('identifier is id', async () => {
     }
 })
 
+test('post test to blogs', async () => {
+
+    const blog = {
+        title: "Localhost",
+        author: "me",
+        url: "http://localhost:303",
+        likes: 100000
+    }
+
+    const send = await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const request = await api.get('/api/blogs')
+
+    const newBlog = send._body
+
+    assert.strictEqual(request.body.length, initialBlogs.length+1)
+    assert.deepStrictEqual(request.body[request.body.length - 1], newBlog)
+
+})
+
 after(async () => {
     await mongoose.connection.close()
 })

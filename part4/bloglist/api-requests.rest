@@ -22,3 +22,16 @@ Content-Type: application/json
     "url": "http://localhost",
     "likes": 0
 }
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "ME",
+    "name": "ME AGAIN",
+    "password": "1234"
+}
+
+###
+DELETE http://localhost:3003/api/users/6748a6c94bed579475a1c412 HTTP/1.1

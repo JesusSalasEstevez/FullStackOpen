@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
 
 const userShcema = new mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        minLength: 3,
+        unique: true
+    },
     name: String,
-    passwordHash: String,
-    /*notes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Note'
-    }]*/
+    passwordHash: {
+        type: String,
+        minLength: 3,
+    },
 })
 
 userShcema.set('toJSON', {

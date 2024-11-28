@@ -80,6 +80,20 @@ test('delete by id', async () => {
     assert.strictEqual(newBlogs.body.length, allBlogs.body.length-1)
 })
 
+test.only('update likes', async () => {
+    const new_likes = 99
+
+    const allBlogs = await api.get('/api/blogs')
+
+    const blog  = allBlogs.body[allBlogs.body.length-1]
+
+    await api.put(`/api/blogs/${blog.id}`).send({...blog, likes:new_likes})
+
+    const newBlogs = await api.get('/api/blogs')
+
+    assert.strictEqual(newBlogs.body[newBlogs.body.length - 1].likes, new_likes)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })

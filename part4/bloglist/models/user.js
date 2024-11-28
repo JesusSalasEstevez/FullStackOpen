@@ -4,6 +4,7 @@ const userShcema = new mongoose.Schema({
     username: {
         type: String,
         minLength: 3,
+        required: true,
         unique: true
     },
     name: String,
@@ -11,6 +12,11 @@ const userShcema = new mongoose.Schema({
         type: String,
         minLength: 3,
     },
+    blogs:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Blog'
+    }]
+
 })
 
 userShcema.set('toJSON', {

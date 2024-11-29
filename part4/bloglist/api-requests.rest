@@ -4,6 +4,7 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1lZSIsImlkIjoiNjc0OGJlN2ZmMzcwNmZmNzBiODFhYjUyIiwiaWF0IjoxNzMyODcwMTU2LCJleHAiOjE3MzI4NzM3NTZ9.dezomWOjTZcXLCbGYnpqd5bU5rZD2MjeoO7XMtX5fQU
 
 {
     "title": "Prueba",
@@ -15,8 +16,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1lZSIsImlkIjoiNjc0OGJlN2ZmMzcwNmZmNzBiODFhYjUyIiwiaWF0IjoxNzMyODY4ODMyLCJleHAiOjE3MzI4NzI0MzJ9.yyJm7vsxnLvtskRIv7aGV-_7Tu30i1A454qW0cNxA0I
-    
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1lZSIsImlkIjoiNjc0OGJlN2ZmMzcwNmZmNzBiODFhYjUyIiwiaWF0IjoxNzMyODcwODk0LCJleHAiOjE3MzI4NzQ0OTR9.SIBtvp21gMEIvZcbAazrc0Ruq6ZbGyE481GSpQP11Jg
 
 {
     "title": "Prueba2",

@@ -25,6 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1lZ
     "likes": 0
 }
 
+
 ###
 POST http://localhost:3003/api/users HTTP/1.1
 Content-Type: application/json
@@ -36,7 +37,9 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/users/6748bd6cf0882ea924c8f50d HTTP/1.1
+DELETE http://localhost:3003/api/blogs/6748c4998f90776d26540ca6 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1lZSIsImlkIjoiNjc0OGJlN2ZmMzcwNmZmNzBiODFhYjUyIiwiaWF0IjoxNzMyODc0NTA4LCJleHAiOjE3MzI4NzgxMDh9.Lx2VRo23gm_CDA5IjtroHkI6E5vPMdvTu6dCQiOAXms
 
 ###
 post http://localhost:3003/api/login

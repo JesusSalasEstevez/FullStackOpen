@@ -13,9 +13,7 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  console.log(decodedToken)
 
-  
   const user = await User.findById(decodedToken.id)
 
   const blog = new Blog({
@@ -33,7 +31,14 @@ blogsRouter.post('/', async (request, response, next) => {
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  await Blog.findByIdAndDelete(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  if(blog.user.toString() === decodedToken.id.toString()){
+    await Blog.findByIdAndDelete(blog.id)
+  }
+
   response.status(204).end()
 })
 

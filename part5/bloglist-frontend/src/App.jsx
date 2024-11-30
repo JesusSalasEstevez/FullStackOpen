@@ -3,6 +3,51 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const ErrorMessage = ({message}) => {
+  const messageStyle = {
+    color: 'red',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: 'lightgrey',
+    margin: 10
+  }
+
+  if(message === null)
+    return null
+
+  return (
+    <div style={messageStyle}>
+      <p>
+        {message}
+      </p>
+    </div>
+  )
+}
+
+const Message = ({message}) => {
+  const messageStyle = {
+    color: 'green',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: 'lightgrey',
+    margin: 10
+  }
+  if(message === null)
+    return null
+
+  return (
+    <div style={messageStyle}>
+      <p>
+        {message}
+      </p>
+    </div>
+  )
+}
+
 
 const LoginForm = (username, setUsername, password, setPassword, handleLogin) => {
   return (
@@ -10,6 +55,7 @@ const LoginForm = (username, setUsername, password, setPassword, handleLogin) =>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
+          username 
           <input
             type = "text"
             value = {username}
@@ -18,6 +64,7 @@ const LoginForm = (username, setUsername, password, setPassword, handleLogin) =>
           />
         </div>
         <div>
+          password
           <input
             type = "text"
             value = {password}
@@ -35,7 +82,38 @@ const Blogs = (user, blogs) => {
   return (
     <div>
       <h2>blogs</h2>
-      <p>{user.username} logged in</p>
+      <p>{user.username} logged in <button onClick={handleLogout}>logout</button></p>
+      <h2>create new</h2>
+      <form onSubmit={createBlog}>
+        <div>
+          title:
+          <input
+            type = "text"
+            valute = {title}
+            name = "Title"
+            onChange={({target}) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          author:
+          <input
+            type = "text"
+            valute = {author}
+            name = "Author"
+            onChange={({target}) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
+          url:
+          <input
+            type = "text"
+            valute = {url}
+            name = "Url"
+            onChange={({target}) => setUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
@@ -51,6 +129,9 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -67,13 +148,6 @@ const App = () => {
     }
   },[])
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if(!loggedUserJSON){
-      setUser(null)
-    }
-  },[])
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try{
@@ -85,8 +159,11 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    }catch(exception){
-      console.log('error en el login', exception)
+    }catch{
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -95,9 +172,20 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
   }
 
-  const createBlog = async (newBLog) => {
+  const createBlog = async () => {
     event.preventDefault()
-    await blogService.create({title, author, url})
+    try{
+      await blogService.create({title, author, url})
+      setMessage(`a new blog ${title} by ${author}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }catch(exception){
+      setErrorMessage('Create Failed')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   /*{user === null
@@ -109,6 +197,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <ErrorMessage message= {errorMessage}/>
         <form onSubmit={handleLogin}>
           <div>
             username 
@@ -136,6 +225,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <Message message= {message}/>
         <p>{user.username} logged in <button onClick={handleLogout}>logout</button></p>
         <h2>create new</h2>
         <form onSubmit={createBlog}>

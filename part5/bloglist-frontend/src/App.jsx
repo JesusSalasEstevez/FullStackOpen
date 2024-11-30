@@ -58,18 +58,41 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if(loggedUserJSON){
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  },[])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if(!loggedUserJSON){
+      setUser(null)
+    }
+  },[])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try{
       const user = await loginService.login({username, password})
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
       blogService.setToken(user.token)
-      console.log()
       setUser(user)
       setUsername('')
       setPassword('')
     }catch(exception){
       console.log('error en el login', exception)
     }
+  }
+
+  const handleLogout = () => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogappUser')
   }
 
   const createBlog = async (newBLog) => {
@@ -113,7 +136,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
-        <p>{user.username} logged in</p>
+        <p>{user.username} logged in <button onClick={handleLogout}>logout</button></p>
         <h2>create new</h2>
         <form onSubmit={createBlog}>
           <div>

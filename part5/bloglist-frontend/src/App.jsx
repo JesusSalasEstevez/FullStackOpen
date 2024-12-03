@@ -57,7 +57,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [message, setMessage] = useState(null)
-  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   const blogFormRef = useRef()
 
@@ -97,9 +96,12 @@ const App = () => {
   }
 
   const createBlog = async (newBlog) => {
-    blogFormRef.current.toogleVisivility()
+    event.preventDefault()
+    blogFormRef.current.toggleVisibility()
+    console.log(newBlog)
     try{
       await blogService.create(newBlog)
+      setBlogs(blogs.concat(await blogService.create(newBlog)))
       setMessage(`a new blog ${newBlog.title} by ${newBlog.author}`)
       setTimeout(() => {
         setMessage(null)

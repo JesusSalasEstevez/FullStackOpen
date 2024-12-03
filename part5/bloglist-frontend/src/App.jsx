@@ -74,7 +74,7 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
-  },[])
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -116,6 +116,7 @@ const App = () => {
 
   const handleLogout = () => {
     event.preventDefault()
+    setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
   }
 

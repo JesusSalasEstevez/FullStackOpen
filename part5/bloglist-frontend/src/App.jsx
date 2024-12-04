@@ -98,9 +98,8 @@ const App = () => {
   const createBlog = async (newBlog) => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
-    console.log(newBlog)
+    newBlog.likes = 0
     try{
-      await blogService.create(newBlog)
       setBlogs(blogs.concat(await blogService.create(newBlog)))
       setMessage(`a new blog ${newBlog.title} by ${newBlog.author}`)
       setTimeout(() => {

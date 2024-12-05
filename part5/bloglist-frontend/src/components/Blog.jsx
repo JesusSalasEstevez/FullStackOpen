@@ -3,15 +3,16 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
   const [visible, setVisibility] = useState(false)
-  const [blog_, setBlog] = useState(blog)
+  const [blogObject, setBlogObject] = useState(blog)
 
   const hideWhenVisible = {display : visible ? 'none' : ''}
   const showWhenVisible = {display : visible ? '' : 'none'}
 
   const handleVisibility = () => setVisibility(!visible)
   const handleLike = async () => {
-    const response = await blogService.newLike(blog_)
-    setBlog(response)
+    const newBlog = {...blogObject, likes : blogObject.likes + 1}
+    await blogService.newLike(newBlog)
+    setBlogObject(newBlog)
   }
 
   const blogStyle = {
@@ -25,14 +26,14 @@ const Blog = ({ blog }) => {
   return(
   <div style={blogStyle}>
     <div style={hideWhenVisible}>
-      {blog_.title}
+      {blogObject.title}
       <button onClick={handleVisibility}>view</button>
     </div>
     <div style={showWhenVisible}>
-      {blog_.title} {blog_.author}<button onClick={handleVisibility}>hide</button><br/>
-      {blog_.url}<br/>
-      {blog_.likes}<button onClick={handleLike}>like</button><br/>
-      {blog_.user.name}
+      {blogObject.title} {blogObject.author}<button onClick={handleVisibility}>hide</button><br/>
+      {blogObject.url}<br/>
+      {blogObject.likes}<button onClick={handleLike}>like</button><br/>
+      {blogObject.user.name}
     </div>
   </div> 
   )

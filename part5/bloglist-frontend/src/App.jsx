@@ -62,9 +62,10 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs =>{
+      blogs = blogs.sort((a,b) => b.likes - a.likes)
       setBlogs( blogs )
-    )  
+    })  
   }, [])
 
   useEffect(() => {
@@ -100,7 +101,7 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     newBlog.likes = 0
     try{
-      setBlogs(blogs.concat(await blogService.create(newBlog)))
+      setBlogs(blogs.concat(await blogService.create(newBlog)).sort((a,b) => b.likes-a.likes))
       setMessage(`a new blog ${newBlog.title} by ${newBlog.author}`)
       setTimeout(() => {
         setMessage(null)
@@ -151,6 +152,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <ErrorMessage message= {errorMessage}/>
         <Message message= {message}/>
         <p>{user.username} logged in <button onClick={handleLogout}>logout</button></p>
         <Toggable buttonLabel='New Blog' ref={blogFormRef}>
